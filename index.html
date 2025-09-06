@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kho ảnh dìm - Đã Fix Lỗi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            transition: background-color 0.3s, color 0.3s, opacity 0.3s, transform 0.3s;
+        }
+
+        body {
+            min-height: 100vh;
+            padding-bottom: 80px;
+            background-color: #f5f5f5;
+            color: #333;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .dark-mode .header {
+            background-color: #2d2d2d;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #555;
+        }
+
+        .dark-mode .theme-toggle {
+            color: #f5f5f5;
+        }
+
+        /* Home Section */
+        .home-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: sectionFadeIn 0.5s forwards;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes sectionFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dark-mode .home-section {
+            background-color: #2d2d2d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 4px solid #4285f4;
+        }
+
+        .dark-mode .avatar {
+            border-color: #1a73e8;
+        }
+
+        .credit {
+            font-size: 18px;
+            font-weight: 500;
+            margin-top: 10px;
+            color: #4285f4;
+        }
+
+        .dark-mode .credit {
+            color: #1a73e8;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: sectionFadeIn 0.5s forwards;
+        }
+
+        .dark-mode .upload-section {
+            background-color: #2d2d2d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .upload-section h2 {
+            margin-bottom: 20px;
+            color: #4285f4;
+        }
+
+        .dark-mode .upload-section h2 {
+            color: #1a73e8;
+        }
+
+        .media-type-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .media-type-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .media-type-btn.active {
+            border-color: #4285f4;
+            background-color: #e8f0fe;
+            color: #4285f4;
+        }
+
+        .dark-mode .media-type-btn {
+            background-color: #3d3d3d;
+            border-color: #555;
+            color: #fff;
+        }
+
+        .dark-mode .media-type-btn.active {
+            border-color: #1a73e8;
+            background-color: #1a1a1a;
+            color: #1a73e8;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .dark-mode .form-group input,
+        .dark-mode .form-group textarea {
+            background-color: #3d3d3d;
+            color: #fff;
+            border-color: #555;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .upload-btn {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark-mode .upload-btn {
+            background-color: #1a73e8;
+        }
+
+        /* Images Section */
+        .images-section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: sectionFadeIn 0.5s forwards;
+        }
+
+        .images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .media-card {
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 极速11选5有啥技巧);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dark-mode .media-card {
+            background-color: #2d2d2d;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .media-card img,
+        .极速11选5有啥技巧media-card video {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .media-info {
+            padding: 15px;
+            flex-grow: 1;
+        }
+
+        .media-info h3 {
+            margin-bottom: 8px;
+            color: #4285f4;
+        }
+
+        .dark-mode .media-info h3 {
+            color: #1a73e8;
+        }
+
+        .media-info p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .dark-mode .media-info p {
+            color: #ccc;
+        }
+
+        .media-type-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .media-type-image {
+            background-color: #e8f0极速11选5有啥技巧fe;
+            color: #4285f4;
+        }
+
+        .dark-mode .media-type-image {
+            background-color: #1a1a1a;
+            color: #1a73e8;
+        }
+
+        .media-type-video {
+            background-color: #fce8e6;
+            color: #ea4335;
+极速11选5有啥技巧        }
+
+        .dark-mode .media-type-video {
+            background-color: #1a1a1a;
+            color: #ea4335;
+        }
+
+        .media-actions {
+            display: flex;
+            border-top: 1px solid #eee;
+        }
+
+        .dark-mode .media-actions {
+            border-top-color: #444;
+        }
+
+        .view-btn, .download-btn {
+            flex: 1;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .view-btn {
+            background-color: #34a853;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .dark-mode .view-btn {
+            background-color: #2极速11选5有啥技巧e7d32;
+        }
+
+        .download-btn {
+            background-color: #4285f4;
+        }
+
+        .dark-mode .download-btn {
+            background-color: #1a73e8;
+        }
+
+        /* Navigation Bar */
+        .navigation-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            background-color: #fff;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            padding: 12px 0;
+            z-index: 1000;
+        }
+
+        .dark-mode .navigation-bar {
+            background-color: #2d2d2d;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #555;
+            font-size: 12px;
+            width: 80px;
+            padding: 8px 0;
+            border-radius: 12px;
+        }
+
+        .dark-mode .nav-item {
+            color: #ccc;
+        }
+
+        .nav-item.active {
+            background-color: #e8f0fe;
+            color: #4285f4;
+        }
+
+        .dark-mode .nav-item.active {
+            background-color: #1a1a1a;
+            color: #1a73e8;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15极速11选5有啥技巧px 20px;
+            background-color: #4caf50;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(-20极速11选5有啥技巧px);
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 1001;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .notification.error {
+            background-color: #f44336;
+        }
+
+        .token-info {
+            background-color: #e8f0fe;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark-mode .token-info {
+            background-color: #1a1a1a;
+            color: #1a73e8;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .modal-content img,
+        .modal-content video {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            background: none;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .modal-caption {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 4px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Kho ảnh dìm</h1>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+
+        <div class="token-info">
+            <i class="fas fa-key"></i>
+            <span>GitHub Token đã được nhúng sẵn trong hệ thống</span>
+        </div>
+
+        <div class="section active" id="homeSection">
+            <div class="home-section">
+                <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Avatar" class="avatar">
+                <h1>Trang chủ Kho Ảnh Dìm</h1>
+                <p class="credit">cre: Tuann</p>
+            </div>
+        </div>
+
+        <div class="section" id="uploadSection">
+            <div class="upload-section">
+                <h2><i class="fas fa-cloud-upload-alt"></i> Tải lên</h2>
+                
+                <div class="media-type-selector">
+                    <div class="media-type-btn active" data-type="image">Ảnh</div>
+                    <div class="media-type-btn" data-type="video">Video</div>
+                </div>
+                
+                <div class="form-group image-field">
+                    <label for="imageUrl">URL ảnh:</label>
+                    <input type="text" id="imageUrl" placeholder="Dán URL ảnh vào đây">
+                </div>
+                <div class="form-group image-field">
+                    <label for="imageFile">Hoặc chọn ảnh từ dt,pc:</label>
+                    <input type="file" id="imageFile" accept="image/*">
+                </div>
+                
+                <div class="form-group video-field" style="display: none;">
+                    <label for="videoUrl">URL video:</label>
+                    <input type="text" id="videoUrl" placeholder="Dán URL video vào đây">
+                </div>
+                <div class="form-group video-field" style="display: none;">
+                    <label for="videoFile">Hoặc chọn video từ dt,pc:</label>
+                    <input type="file" id="videoFile" accept="video/*">
+                </div>
+                
+                <div class="form-group">
+                    <label for="mediaBio">Tiểu sử (nạn nhân):</label>
+                    <textarea id="mediaBio" placeholder="Nhập tiểu sử cho nội dung"></textarea>
+                </div>
+                <button class="upload-btn" id="uploadBtn">
+                    <i class="fas fa-upload"></i> Tải lên
+                </button>
+            </div>
+        </div>
+
+        <div class="section" id="imagesSection">
+            <h2 style="margin-bottom: 20px; color: #4285f4;"><极速11选5有啥技巧i class="fas fa-images"></i> Nội dung đã tải lên</h2>
+            <div class="images-section">
+                <div class="images-grid" id="mediaList">
+                    <!-- Media will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation-bar">
+        <a href="#" class="nav-item active" data-target="homeSection">
+            <i class="fas fa-home nav-icon"></i>
+            <span>Trang chủ</span>
+        </a>
+        <a href="#" class="nav-item" data-target="uploadSection">
+            <i class="fas fa-cloud-upload-alt nav-icon"></i>
+            <span>Tải lên</span>
+        </a>
+        <a href="#" class="nav-item" data-target="imagesSection">
+            <i class="fas fa-image nav-icon"></i>
+            <span>Nội dung</span>
+        </a>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <!-- Modal for viewing media -->
+    <div class="modal" id="mediaModal">
+        <div class="modal-content" id="modalContent">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // GitHub Token được nhúng sẵn trong code
+            const GITHUB_TOKEN = 'ghp_yourtokenhere'; // Đặt token GitHub của bạn ở đây
+            
+            // Cấu hình GitHub
+            const GITHUB_REPO_OWNER = 'yourusername'; // Thay bằng username GitHub của bạn
+            const GITHUB_REPO_NAME = 'yourreponame'; // Thay bằng tên repository của bạn
+            const GITHUB_FILE_PATH = 'media-data.json'; // File để lưu dữ liệu
+            
+            // Lấy các phần tử DOM
+            const themeToggle = document.getElementById('themeToggle');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const imageUrlInput = document.getElementById('image极速11选5有啥技巧Url');
+            const imageFileInput = document.getElementById('imageFile');
+            const videoUrlInput = document.getElementById('videoUrl');
+            const videoFileInput = document.getElementById('videoFile');
+            const mediaBioInput = document.getElementById('mediaBio');
+            const mediaList = document.getElementById('mediaList');
+            const navItems = document.querySelectorAll('.nav-item');
+            const sections = document.querySelectorAll('.section');
+            const notification = document.getElementById('notification');
+            const mediaTypeButtons = document.querySelectorAll('.media-type-btn');
+            const imageFields = document.querySelectorAll('.image-field');
+            const videoFields = document.querySelectorAll('.video-field');
+            const mediaModal = document.getElementById('mediaModal');
+            const modalContent = document.getElementById('modalContent');
+            const modalClose = document.getElementById('modalClose');
+            const modalCaption = document.getElementById('modalCaption');
+            
+            // Biến toàn cục
+            let mediaData = [];
+            
+            // Khởi tạo
+            initApp();
+            
+            function initApp() {
+                // Kiểm tra chế độ tối từ localStorage
+                if (localStorage.getItem('darkMode') === 'enabled') {
+                    document.body.classList.add('dark-mode');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+                
+                // Tải dữ liệu từ GitHub
+                loadMediaFromGitHub();
+            }
+            
+            // Xử lý sự kiện chuyển đổi chế độ sáng/tối
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                
+                if (document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('darkMode', 'enabled');
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                } else {
+                    localStorage.setItem('darkMode', null);
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                }
+            });
+            
+            // Xử lý chuyển đổi loại media (ảnh/video)
+            mediaTypeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    
+                    // Cập nhật trạng thái active
+                    mediaTypeButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Hiển thị/ẩn các trường phù hợp
+                    if (type === 'image') {
+                        imageFields.forEach(field => field.style.display = 'block');
+                        videoFields.forEach(field => field.style.display = 'none');
+                    } else {
+                        imageFields.forEach(field => field.style.display = 'none');
+                        videoFields.forEach(field => field.style.display = 'block');
+                    }
+                });
+            });
+            
+            // Xử lý sự kiện chọn file ảnh
+            imageFileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    // Kiểm tra xem file có phải là ảnh không
+                    if (!file.type.match('image.*')) {
+                        showNotification('Vui lòng chọn file ảnh!', 'error');
+                        imageFileInput.value = '';
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        imageUrlInput.value = ''; // Xóa URL nếu có
+                        showNotification('Ảnh đã được chọn: ' + file.name);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Xử lý sự kiện chọn file video
+            videoFileInput.addEventListener('change', function(e极速11选5有啥技巧) {
+                const file = e.target.files[0];
+                if (file) {
+                    // Kiểm tra xem file có phải là video không
+                    if (!file.type.match('video.*')) {
+                        showNotification('Vui lòng chọn file video!', 'error');
+                        videoFileInput.value = '';
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        videoUrlInput.value = ''; // Xóa URL nếu có
+                        showNotification('Video đã được chọn: ' + file.name);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Xử lý sự kiện tải lên media
+            uploadBtn.addEventListener('click', function() {
+                const mediaType = document.querySelector('.media-type-btn.active').getAttribute('data-type');
+                const mediaBio = mediaBioInput.value.trim();
+                
+                let finalMediaUrl = '';
+                let mediaItem = null;
+                let isBase64 = false;
+                
+                if (mediaType === 'image') {
+                    const imageUrl = imageUrlInput.value.trim();
+                    const file = imageFileInput.files[0];
+                    
+                    if (!imageUrl && !file) {
+                        showNotification('Vui lòng cung cấp URL ảnh hoặc chọn ảnh từ máy tính!', 'error');
+                        return;
+                    }
+                    
+                    if (!mediaBio) {
+                        showNotification('Vui lòng nhập tiểu sử cho ảnh!', 'error');
+                        return;
+                    }
+                    
+                    if (file) {
+                        // Nếu người dùng chọn file từ máy tính
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            finalMediaUrl = event.target.result;
+                            isBase64 = true;
+                            
+                            // Tạo dữ liệu media
+                            mediaItem = {
+                                url: finalMediaUrl,
+                                bio: mediaBio,
+                                timestamp: new Date().toISOString(),
+                                type: 'image',
+                                isBase64: isBase64
+                            };
+                            
+                            // Lưu lên GitHub
+                            saveMediaToGitHub(mediaItem);
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        // Nếu người dùng nhập URL
+                        // Kiểm tra tính hợp lệ của URL
+                        if (!isValidUrl(imageUrl)) {
+                            showNotification('URL ảnh không hợp lệ!', 'error');
+                            return;
+                        }
+                        
+                        // Kiểm tra xem URL có phải là ảnh không
+                        checkImageUrl(imageUrl)
+                            .then(() => {
+                                // Tạo dữ liệu media
+                                mediaItem = {
+                                    url: imageUrl,
+                                    bio: mediaBio,
+                                    timestamp: new Date().toISOString(),
+                                    type: 'image',
+                                    isBase64: false
+                                };
+                                
+                                // Lưu lên GitHub
+                                saveMediaToGitHub(mediaItem);
+                            })
+                            .catch(() => {
+                                showNotification('URL không trỏ đến một hình ảnh hợp lệ!', 'error');
+                            });
+                    }
+                } else {
+                    // Xử lý video
+                    const video极速11选5有啥技巧Url = videoUrlInput.value.trim();
+                    const file = videoFileInput.files[0];
+                    
+                    if (!videoUrl && !file) {
+                        showNotification('Vui lòng cung cấp URL video hoặc chọn video từ máy tính!', 'error');
+                        return;
+                    }
+                    
+                    if (!mediaBio) {
+                        showNotification('Vui lòng nhập tiểu sử cho video!', 'error');
+                        return;
+                    }
+                    
+                    if (file) {
+                        // Nếu người dùng chọn file từ máy tính
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            finalMediaUrl = event.target.result;
+                            isBase64 = true;
+                            
+                            // Tạo dữ liệu media
+                            mediaItem = {
+                                url: finalMediaUrl,
+                                bio: mediaBio,
+                                timestamp: new Date().toISOString(),
+                                type: 'video',
+                                is极速11选5有啥技巧Base64: isBase64
+                            };
+                            
+                            // Lưu lên GitHub
+                            saveMediaToGitHub(mediaItem);
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        // Nếu người dùng nhập URL
+                        // Kiểm tra tính hợp lệ của URL
+                        if (!isValidUrl(videoUrl)) {
+                            showNotification('URL video không hợp lệ!', 'error');
+                            return;
+                        }
+                        
+                        // Kiểm tra xem URL có phải là video không
+                        checkVideoUrl(videoUrl)
+                            .then(() => {
+                                // Tạo dữ liệu media
+                                mediaItem = {
+                                    url: videoUrl,
+                                    bio: mediaBio,
+                                    timestamp: new Date().toISOString(),
+                                    type: 'video',
+                                    isBase64: false
+                                };
+                                
+                                // Lưu lên GitHub
+                                saveMediaToGitHub(mediaItem);
+                            })
+                            .catch(() => {
+                                showNotification('URL không trỏ đến một video hợp lệ!', 'error');
+                            });
+                    }
+                }
+            });
+            
+            // Chuyển đổi giữa các section
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('data-target');
+                    
+                    // Ẩn tất cả các section với hiệu ứng
+                    sections.forEach(section => {
+                        if (section.classList.contains('active')) {
+                            section.style.opacity = 0;
+                            section.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                section.classList.remove('active');
+                            }, 300);
+                        }
+                    });
+                    
+                    // Hiển thị section được chọn với hiệu ứng
+                    setTimeout(() => {
+                        const targetSection = document.getElementById(targetId);
+                        targetSection.classList.add('active');
+                        setTimeout(() => {
+                            targetSection.style.opacity = 1;
+                            targetSection.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, 300);
+                    
+                    // Cập nhật trạng thái active của navigation
+                    navItems.forEach(navItem => {
+                        navItem.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Nếu là section media, tải lại danh sách media
+                    if (targetId === 'imagesSection') {
+                        loadMediaFromGitHub();
+                    }
+                });
+            });
+            
+            // Sử dụng event delegation cho các nút view và download
+            mediaList.addEventListener('click', function(e) {
+                // Xử lý nút view
+                if (e.target.classList.contains('view-btn') || e.target.closest('.view-btn')) {
+                    const btn = e.target.classList.contains('view-btn') ? e.target : e.target.closest('.view-btn');
+                    const mediaUrl = btn.getAttribute('data-url');
+                    const mediaType = btn.getAttribute('data-type');
+                    const mediaBio = btn.getAttribute('data-bio');
+                    viewMedia(mediaUrl, mediaType, mediaBio);
+                }
+                
+                // Xử lý nút download
+                if (e.target.classList.contains('download-btn') || e.target.closest('.download-btn')) {
+                    const btn = e.target.classList.contains('download-btn') ? e.target : e.target.closest('.download-btn');
+                    const mediaUrl = btn.getAttribute('data-url');
+                    const filename = btn.getAttribute('data-filename');
+                    downloadMedia(mediaUrl, filename);
+                }
+            });
+            
+            // Hàm kiểm tra URL hợp lệ
+            function isValidUrl(string) {
+                try {
+                    new URL(string);
+                    return true;
+                } catch (_) {
+                    return false;
+                }
+            }
+            
+            // Hàm kiểm tra URL ảnh
+            function checkImageUrl(url) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => resolve();
+                    img.onerror = () => reject();
+                    img.src = url;
+                    // Đặt timeout để tránh treo nếu ảnh không tải được
+                    setTimeout(() => reject(), 5000);
+                });
+            }
+            
+            // Hàm kiểm tra URL video
+            function checkVideoUrl(url) {
+                return new Promise((resolve, reject) => {
+                    const video = document.createElement('video');
+                    video.addEventListener('loadedmetadata', () => resolve());
+                    video.addEventListener('error', () => reject());
+                    video.src = url;
+                    // Đặt timeout để tránh treo nếu video không tải được
+                    setTimeout(() => reject(), 5000);
+                });
+            }
+            
+            // Hàm lưu media lên GitHub
+            function saveMediaToGitHub(mediaItem) {
+                showNotification('Đang tải lên GitHub...');
+                
+                // Thêm media mới vào mảng
+                mediaData.push(mediaItem);
+                
+                // Tạo nội dung file JSON
+                const content = JSON.stringify(mediaData, null, 2);
+                const contentBase64 = btoa(unescape(encodeURIComponent(content)));
+                
+                // Tạo payload cho API
+                const payload = {
+                    message: `Thêm media mới - ${new Date().toLocaleString()}`,
+                    content: contentBase64,
+                    sha: localStorage.getItem('githubFileSha') || null
+                };
+                
+                // Gọi API GitHub để cập nhật file - SỬ DỤNG HEADER Authorization
+                fetch(`https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${GITHUB_FILE_PATH}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${GITHUB_TOKEN}`, // Sử dụng Bearer token trong header
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        if (response.status === 401) {
+                            throw new Error('Token không hợp lệ hoặc không có quyền truy cập');
+                        }
+                        throw new Error('Lỗi khi tải lên GitHub: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Lư极速11选5有啥技巧u SHA của file để cập nhật sau này
+                    localStorage.setItem('githubFileSha', data.content.sha);
+                    
+                    // Hiển thị thông báo thành công
+                    showNotification('Media đã được tải lên GitHub thành công!');
+                    
+                    // Reset form
+                    imageUrlInput.value = '';
+                    imageFileInput.value = '';
+                    videoUrlInput.value = '';
+                    videoFileInput.value = '';
+                    mediaBioInput.value = '';
+                    
+                    // Tải lại danh sách media
+                    loadMediaFromGitHub();
+                })
+                .catch(error => {
+                    console.error('Lỗi khi tải lên GitHub:', error);
+                    showNotification('Lỗi khi tải lên GitHub: ' + error.message, 'error');
+                    
+                    // Xóa media đã thêm khỏi mảng
+                    mediaData.pop();
+                });
+            }
+            
+            // Hàm tải danh sách media từ GitHub
+            function loadMediaFromGitHub() {
+                showNotification('Đang tải dữ liệu từ GitHub...');
+                
+                // Gọi API GitHub để lấy nội dung file - SỬ DỤNG HEADER Authorization
+                fetch(`https://api.github.com/repos/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/contents/${GITHUB_FILE_PATH}`, {
+                    headers: {
+                        'Authorization': `Bearer ${GITHUB_TOKEN}`, // Sử dụng Bearer token trong header
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            // File chưa tồn tại, khởi tạo mảng rỗng
+                            mediaData = [];
+                            renderMediaList();
+                            showNotification('Không có nội dung nào được tải lên.');
+                            return Promise.reject('File not found');
+                        } else if (response.status === 401) {
+                            throw new Error('Token không hợp lệ hoặc không có quyền truy cập');
+                        }
+                        throw new Error('Lỗi khi tải dữ liệu từ GitHub: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Lưu SHA của file để cập nhật sau này
+                    localStorage.setItem('githubFileSha', data.sha);
+                    
+                    // Giải mã nội dung file
+                    const content = atob(data.content.replace(/\s/g, ''));
+                    mediaData = JSON.parse(content);
+                    
+                    // Hiển thị danh sách media
+                    renderMediaList();
+                })
+                .catch(error => {
+                    console.error('Lỗ极速11选5有啥技巧i khi tải dữ liệu từ GitHub:', error);
+                    if (error.message !== 'File not found') {
+                        showNotification('Lỗi khi tải dữ liệu từ GitHub: ' + error.message, 'error');
+                        mediaList.innerHTML = '<p style="text-align: center; width: 100%; padding: 30px; color: #666;">Lỗi khi tải dữ liệu từ GitHub.</p>';
+                    }
+                });
+            }
+            
+            // Hàm hiển thị danh sách media
+            function renderMediaList() {
+                if (mediaData.length === 0) {
+                    mediaList.innerHTML = '<p style="text-align: center; width: 100%; padding: 30px; color: #666;">Chưa có nội dung nào được tải lên.</p>';
+                    return;
+                }
+                
+                mediaList.innerHTML = '';
+                
+                mediaData.forEach((item, index) => {
+                    const mediaCard = document.createElement('div');
+                    mediaCard.className = 'media-card';
+                    
+                    const mediaElement = item.type === 'image' 
+                        ? `<img src="${item.url}" alt="Uploaded image" onerror="this.src='https://via.placeholder.com/300x180?text=Không+thể+tải+ảnh'">`
+                        : `<video controls><source src="${item.url}" type="video/mp4">Trình duyệt của bạn không hỗ trợ video.</video>`;
+                    
+                    const mediaTypeBadge = item.type === 'image' 
+                        ? '<span class="media-type-badge media-type-image">Ảnh</span>'
+                        : '<span class极速11选5有啥技巧="media-type-badge media-type-video">Video</span>';
+                    
+                    mediaCard.innerHTML = `
+                        ${mediaElement}
+                        <div class="media-info">
+                            ${mediaTypeBadge}
+                            <h3>${item.type === 'image' ? 'Ảnh' : 'Video'} #${index + 1}</h3>
+                            <极速11选5有啥技巧p>${item.bio}</p>
+                            <p><small>${new Date(item.timestamp).toLocaleString()}</small></p>
+                        </div>
+                        <div class="media-actions">
+                            <button class="view-btn" data-url="${item.url}" data-type="${item.type}" data-bio="${item.bio}">
+                                <i class="fas fa-eye"></i> Xem
+                            </button>
+                            <button class="download-btn" data-url="${item.url}" data-filename="${item.type}-${index + 1}${item.isBase64 ? (item.type === 'image' ? '.png' : '.mp4') : ''}">
+                                <i class="fas fa-download"></i> Tải xuống
+                            </button>
+                        </div>
+                    `;
+                    
+                    mediaList.appendChild(mediaCard);
+                });
+            }
+            
+            // Hàm xem media toàn màn hình
+            function viewMedia(url, type, bio) {
+                modalContent.innerHTML = '';
+                
+                if (type === 'image') {
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.alt = "Media content";
+                    modalContent.appendChild(img);
+                } else {
+                    const video = document.createElement('video');
+                    video.src = url;
+                    video.controls = true;
+                    video.autoplay = true;
+                    modalContent.appendChild(video);
+                }
+                
+                // Thêm nút đóng và caption
+                const closeBtn = document.createElement('button');
+                closeBtn.className = 'modal-close';
+                closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                closeBtn.addEventListener('click', closeModal);
+                modalContent.appendChild(closeBtn);
+                
+                // Thêm caption
+                modalCaption.textContent = bio;
+                
+                // Hiển thị modal
+                mediaModal.classList.add('show');
+                
+                // Thêm sự kiện để đóng modal khi nhấn ESC
+                document.addEventListener('keydown', handleEscapeKey);
+            }
+            
+            // Hàm đóng modal
+            function closeModal() {
+                mediaModal.classList.remove('show');
+                document.removeEventListener('keydown', handleEscapeKey);
+            }
+            
+            // Xử lý phím ESC để đóng modal
+            function handleEscapeKey(event) {
+                if (event.key === 'Escape') {
+                    closeModal();
+                }
+            }
+            
+            // Đóng modal khi click bên ngoài nội dung
+            mediaModal.addEventListener('click', function(e) {
+                if (e.target === mediaModal) {
+                    closeModal();
+                }
+            });
+            
+            // Đóng modal khi click nút đóng
+            modalClose.addEventListener('click', closeModal);
+            
+            // Hàm download media
+            function downloadMedia(url, filename) {
+                showNotification('Đang tải xuống...');
+                
+                if (url.startsWith('data:')) {
+                    // Xử lý base64
+                    fetch(url)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const blobUrl = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = blobUrl;
+                            a.download = filename;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(blobUrl);
+                            
+                            showNotification('Tải xuống thành công!');
+                        })
+                        .catch(error => {
+                            console.error('Lỗi khi tải xuống:', error);
+                            showNotification('Lỗi khi tải xuống!', 'error');
+                        });
+                } else {
+                    // Xử lý URL thông thường
+                    fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Lỗi tải nội dung');
+                        }
+                        return response.blob();
+                    })
+                    .then(blob => {
+                        const blobUrl = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = blobUrl;
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(blobUrl);
+                        
+                        showNotification('Tải xuống thành công!');
+                    })
+                    .catch(error => {
+                        console.error('Lỗi khi tải xuống:', error);
+                        showNotification('Lỗi khi tải xuống!', 'error');
+                    });
+                }
+            }
+            
+            // Hàm hiển thị thông báo
+            function showNotification(message, type = 'success') {
+                notification.textContent = message;
+                notification.className = 'notification';
+                if (type === 'error') {
+                    notification.classList.add('error');
+                }
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove极速11选5有啥技巧('show');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
